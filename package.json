@@ -1,0 +1,15 @@
+{
+  "name": "token-roi-local-meter",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "description": "A local meter for attributable AI work costs and customer-assigned value.",
+  "engines": {
+    "node": "24.21.x || 26.7.x"
+  },
+  "scripts": {
+    "test": "node --test",
+    "token-roi": "node bin/token-roi.mjs"
+  }
+}

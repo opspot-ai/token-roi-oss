@@ -1,0 +1,49 @@
+{
+  "format": "token-roi-import/v1",
+  "batch": {
+    "source": "Synthetic local demo",
+    "coverage": {
+      "status": "partial",
+      "from": "2026-10-10T00:00:00Z",
+      "to": "2026-10-13T00:00:00Z"
+    }
+  },
+  "entries": [
+    {
+      "id": "demo-recorded-pair",
+      "occurredAt": "2026-10-10T13:15:00Z",
+      "currency": "USD",
+      "instrument": "Draft response review",
+      "source": "Synthetic task log",
+      "cost": { "amount": "0.84", "basis": "recorded", "source": "Synthetic local usage export" },
+      "assignedValue": { "amount": "5.00", "assignedBy": "Demo owner", "method": "Example task value" }
+    },
+    {
+      "id": "demo-estimated-pair",
+      "occurredAt": "2026-10-11T10:00:00Z",
+      "currency": "USD",
+      "instrument": "Support reply outline",
+      "source": "Synthetic task log",
+      "cost": { "amount": "0.20", "basis": "estimated", "source": "Illustrative token estimate", "confidencePercent": 65 },
+      "assignedValue": { "amount": "1.25", "assignedBy": "Demo owner", "method": "Example time saved" }
+    },
+    {
+      "id": "demo-value-only",
+      "occurredAt": "2026-10-12T08:45:00Z",
+      "currency": "USD",
+      "instrument": "Idea summary",
+      "source": "Synthetic task log",
+      "cost": null,
+      "assignedValue": { "amount": "0.50", "assignedBy": "Demo owner", "method": "Example task value" }
+    },
+    {
+      "id": "demo-other-currency",
+      "occurredAt": "2026-10-12T09:00:00Z",
+      "currency": "CAD",
+      "instrument": "Translation check",
+      "source": "Synthetic task log",
+      "cost": { "amount": "0.12", "basis": "recorded", "source": "Synthetic local usage export" },
+      "assignedValue": null
+    }
+  ]
+}

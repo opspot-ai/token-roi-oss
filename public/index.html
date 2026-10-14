@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Token ROI — local meter</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="page-header">
+        <div class="brand-mark" aria-hidden="true">TR</div>
+        <div class="header-copy">
+          <p class="eyebrow">TOKEN ROI <span class="local-indicator"><span class="status-dot"></span> Local</span></p>
+          <h1>A clearer view of AI work</h1>
+          <p class="lede">Track costs and customer-assigned value against the same work item.</p>
+        </div>
+        <a class="header-link" href="#import-panel">Import records <span aria-hidden="true">↓</span></a>
+      </header>
+
+      <section class="truth-note" aria-label="Product scope">
+        <span class="note-symbol" aria-hidden="true">i</span>
+        <p>This is a local meter. Assigned value is not revenue, imported amounts are not provider-verified, and this tool does not limit or make provider calls.</p>
+      </section>
+
+      <div class="workspace-grid">
+        <section class="panel report-panel" aria-labelledby="report-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">ANALYSIS</p>
+              <h2 id="report-title">Choose a reporting window</h2>
+              <p class="section-copy">Dates are UTC. The end date is excluded.</p>
+            </div>
+            <div class="export-controls">
+              <label class="visually-hidden" for="export-format">Export format</label>
+              <select id="export-format" aria-label="Export format">
+                <option value="json">JSON</option>
+                <option value="csv">CSV</option>
+              </select>
+              <button id="export-button" class="button button-secondary" type="button" disabled>Export ledger</button>
+            </div>
+          </div>
+          <form id="report-form" class="report-form">
+            <label class="field">
+              <span>From (UTC)</span>
+              <input id="from-date" name="from" type="date" required>
+            </label>
+            <label class="field">
+              <span>To, exclusive (UTC)</span>
+              <input id="to-date" name="to" type="date" required>
+            </label>
+            <div class="field currency-field">
+              <label for="currency">Currency</label>
+              <input id="currency" name="currency" type="text" value="USD" maxlength="3" pattern="[A-Z]{3}" autocomplete="off" required aria-describedby="currency-help">
+              <span id="currency-help" class="field-help">Three uppercase letters, for example USD.</span>
+            </div>
+            <div class="form-action">
+              <button id="report-button" class="button button-primary" type="submit">Run report</button>
+            </div>
+            <fieldset class="budget-fields">
+              <legend>Optional budget and runway</legend>
+              <p class="budget-help">Enter every field to estimate balance. The budget period must match the report window, and runway uses one selected cost basis.</p>
+              <div class="budget-input-grid">
+                <label class="field">
+                  <span>Budget amount</span>
+                  <input id="budget-amount" name="budgetAmount" type="text" inputmode="decimal" maxlength="40" placeholder="e.g. 100.00" autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Budget currency</span>
+                  <input id="budget-currency" name="budgetCurrency" type="text" maxlength="3" placeholder="e.g. USD" autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Budget period from (UTC)</span>
+                  <input id="budget-from" name="budgetFrom" type="date">
+                </label>
+                <label class="field">
+                  <span>Budget period to, exclusive (UTC)</span>
+                  <input id="budget-to" name="budgetTo" type="date">
+                </label>
+                <label class="field">
+                  <span>Spend basis</span>
+                  <select id="spend-basis" name="spendBasis">
+                    <option value="">Choose a basis</option>
+                    <option value="recorded">Recorded spend</option>
+                    <option value="estimated">Estimated spend</option>
+                  </select>
+                </label>
+              </div>
+            </fieldset>
+          </form>
+          <p id="export-error" class="inline-error" role="alert" hidden></p>
+          <p id="report-error" class="inline-error" role="alert" hidden></p>
+          <div id="report-content" aria-live="polite" aria-atomic="false">
+            <div id="empty-state" class="empty-state">
+              <div class="empty-mark" aria-hidden="true">↗</div>
+              <h3>Your report will appear here</h3>
+              <p>Import a synthetic sample or your own CSV/JSON records, then choose a UTC window and currency.</p>
+              <a href="#import-panel" class="text-link">Add records <span aria-hidden="true">→</span></a>
+            </div>
+            <div id="report-result" hidden></div>
+          </div>
+        </section>
+
+        <aside id="import-panel" class="panel import-panel" aria-labelledby="import-title">
+          <div class="section-heading import-heading">
+            <div>
+              <p class="eyebrow">YOUR DATA</p>
+              <h2 id="import-title">Add a batch</h2>
+            </div>
+            <span class="format-chip">CSV · JSON</span>
+          </div>
+          <p class="section-copy">Imports merge new IDs into the selected ledger. Duplicate IDs fail without changing it.</p>
+          <form id="import-form" class="import-form">
+            <div class="field">
+              <label for="import-file">CSV or JSON file</label>
+              <input id="import-file" name="file" type="file" accept=".csv,.json,text/csv,application/json" required aria-describedby="file-help">
+              <span id="file-help" class="field-help">Up to 2 MiB and 10,000 records per import.</span>
+            </div>
+            <label class="field">
+              <span>Batch source</span>
+              <input id="batch-source" name="source" type="text" maxlength="200" placeholder="For example, manual export from a work log">
+            </label>
+            <label class="field">
+              <span>Coverage</span>
+              <select id="coverage-status" name="coverage">
+                <option value="unknown">Unknown</option>
+                <option value="partial">Partial</option>
+                <option value="complete">Complete, declared by me</option>
+              </select>
+            </label>
+            <div id="coverage-window" class="coverage-window" hidden>
+              <label class="field">
+                <span>Coverage from (UTC)</span>
+                <input id="coverage-from" type="text" placeholder="2026-10-01T00:00:00Z" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\.[0-9]{1,3})?Z">
+              </label>
+              <label class="field">
+                <span>Coverage to, exclusive (UTC)</span>
+                <input id="coverage-to" type="text" placeholder="2026-11-01T00:00:00Z" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\.[0-9]{1,3})?Z">
+              </label>
+            </div>
+            <p class="field-help json-help">These defaults apply when the file has no batch metadata. JSON metadata takes precedence.</p>
+            <button id="import-button" class="button button-secondary import-submit" type="submit">Import batch</button>
+          </form>
+          <p id="import-message" class="inline-message" role="status" aria-live="polite"></p>
+          <p id="import-error" class="inline-error" role="alert" hidden></p>
+          <div class="local-ledger-note">
+            <span class="status-dot"></span>
+            <p>The ledger stays at the path you gave the local server.</p>
+          </div>
+        </aside>
+      </div>
+
+      <footer class="page-footer">
+        <span>Local only · No telemetry · No provider connection</span>
+        <span id="ledger-count">Ledger: loading…</span>
+      </footer>
+    </main>
+  </body>
+</html>
